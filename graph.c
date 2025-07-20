@@ -92,18 +92,13 @@ void printDigraph(Digraph *digraph)
     for (int v = 0; v < digraph->num_v; v++)
     {
         NodeAdj *temp = digraph->list_adj[v].head;
-        if (temp == NULL)
+
+        printf("\nG(%d): %d\n ", v + 1, digraph->list_adj[v].deg);
+        printf("\nLista de adjacencia do vertice %d\nhead ", v + 1);
+        while (temp)
         {
-            printf("\nO vértice %d não é adjacente a nenhum vértice", v + 1);
-        }
-        else
-        {
-            printf("\nLista de adjacencia do vertice %d\nhead ", v + 1);
-            while (temp)
-            {
-                printf("-> %d", temp->v + 1);
-                temp = temp->next;
-            }
+            printf("-> %d", temp->v + 1);
+            temp = temp->next;
         }
         printf("\n");
     }
