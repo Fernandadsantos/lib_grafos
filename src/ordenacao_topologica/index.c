@@ -18,14 +18,11 @@ void stackUp(Stack *stack, NodeAdj *newItem)
 {
     NodeAdj *item = malloc(sizeof(NodeAdj));
     item->v = newItem->v;
+    item->next = NULL;
 
     if (stack->top != NULL)
     {
         item->next = stack->top;
-    }
-    else
-    {
-        item->next = NULL;
     }
 
     stack->top = item;
@@ -34,18 +31,17 @@ void stackUp(Stack *stack, NodeAdj *newItem)
 
 NodeAdj *unstack(Stack *stack)
 {
-    if (stack->capacity == 0)
-    {
-        return NULL;
-    }
-    else
+    if (stack->capacity > 0)
     {
         NodeAdj *aux = malloc(sizeof(NodeAdj));
         aux = stack->top;
         stack->top = aux->next;
         stack->capacity -= 1;
+
         return aux;
     }
+
+    return NULL;
 }
 
 void topological_sort(Digraph *digraph)
@@ -71,11 +67,12 @@ void topological_sort(Digraph *digraph)
         if (aux != NULL)
         {
             printf("\nREMOVENDO VERTICE: %d\n", aux->v + 1);
-
             aux = digraph->list_adj[aux->v].head;
+
             while (aux != NULL)
             {
                 digraph->list_adj[aux->v].deg -= 1;
+
                 if (digraph->list_adj[aux->v].deg == 0)
                 {
                     stackUp(stack, aux);
@@ -96,7 +93,6 @@ void topological_sort(Digraph *digraph)
 int main()
 {
     FILE *input = fopen("input.txt", "r");
-
     Digraph *digraph = read_digraph(input);
 
     printDigraph(digraph);
